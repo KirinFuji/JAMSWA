@@ -182,7 +182,7 @@ check_minecraft_func()
 {
 find_mcproc_func
 
-if [ "$$check_proc_success" = 0 ];then
+if [ "$check_proc_success" == 0 ];then
 
         local server_is_up_var=up
 		echo "$mc_server_name is running"	
