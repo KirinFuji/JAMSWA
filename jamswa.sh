@@ -223,15 +223,15 @@ select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Re
 do
         case $menu_var in
                  "Start Server")
-                        start_minecraft_func ; break;;
+                        start_minecraft_func ;;
                 "Stop Server")
-                        stop_minecraft_func ; break;;
+                        stop_minecraft_func ;;
                 "View Server")
                         attach_mc_screen_func ; break;;
                 "Check Server")
-                        check_minecraft_func ; break;;
+                        check_minecraft_func ;;
                 "Reboot Server")
-                        reboot_minecraft_func ; break;;
+                        reboot_minecraft_func ;;
                 "Exit") 
 						break;;
         esac
