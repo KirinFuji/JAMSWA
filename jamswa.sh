@@ -233,14 +233,23 @@ echo ""
 					"View Server")
 							attach_mc_screen_func ; showmenu=0 ; break;;
 					"Check Server")
-							check_minecraft_func ; break ;;
+							check_minecraft_func ; break ;;	# Would be replaced.
+							#user_checked=1 ; break ;;		# New Code I want to try.
+							#								# Addition Group #1
 					"Reboot Server")
 							reboot_minecraft_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
 					*) echo "$failtext" >&2
 			esac
-	done	
+			
+			#if [ "$user_checked" == "1" ];then		# New Code I want to try.
+			#user_checked=0							# Addition Group #1
+			#echo ""								# Goal: Get text output below the menu.
+			#check_minecraft_func					# Will need to test to see if this is a good/bad idea because the user would be able to select another task while one is technically running. This may also be good if I can do error checking to tell them the task is already running.
+			#fi										
+			
+	done
 }
 
 
