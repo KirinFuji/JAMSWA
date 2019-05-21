@@ -159,9 +159,9 @@ find_mcproc_func
 
                 echo "Server is online. Starting reboot..."
 
-                        while [ "check_proc_success" = "0" ]
+                        while true;
                         do
-                                if [ "check_proc_success" = "0" ]
+                                if [ "$check_proc_success" = "0" ]
                                 then
                                         echo "Server is still shutting down waiting 5 seconds before checking again."
                                         sleep 5
