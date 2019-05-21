@@ -208,22 +208,21 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-main()
-{
-local COLUMNS=20
 export PS3="Please use numbers to navigate:"
 
-	if [ -f "$mcdir/$banner_file" ]
-	then
+	if [ -f "$mcdir/$banner_file" ];then
 		echo ""
 		cat "$mcdir/$banner_file"
 		echo ""
 	fi
 
+	echo "Welcome to "$mc_server_name" Minecraft Server Menu."
+	
+main()
+{
+local COLUMNS=20
 echo ""
-echo "Welcome to "$mc_server_name" Minecraft Server Menu."
-
-	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";	do
+	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";do
 			case $menu_var in
 					"Start Server")
 							start_minecraft_func ; break ;;
@@ -237,6 +236,7 @@ echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 							reboot_minecraft_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
+					*) echo "Please use numbers to navigate." >&2
 			esac
 	done	
 }
