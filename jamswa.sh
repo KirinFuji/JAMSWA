@@ -33,7 +33,6 @@ find_mcproc_func()
 processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
 check_proc_success=$?
 pidis=$(echo "$processis" | awk '{print $2}')
-jaris=$(echo "processis" | grep -o "$mcdir/$mcjar")
 wait
 
 }
@@ -57,6 +56,7 @@ is_screen_up=$?
 #Check to see if minecraft is already running, if it is, do not start another one.
 
 find_mcproc_func
+jaris=$(echo "$processis" | grep -o "$mcdir/$mcjar")
 
 if [[ "$check_proc_success" != "0" && ! "$jaris" ]];then
 echo "No Minecraft server found running."
@@ -186,7 +186,9 @@ if [ "$check_proc_success" == 0 ];then
 
         local server_is_up_var=up
 		echo "$mc_server_name is running"	
-		echo "Its Process ID is: $last_pid"
+		echo "Its Process ID is: $pidis"
+		jaris=$(echo "$processis" | grep -o "$mcdir/$mcjar")
+		echo "Jarfile is at: $jaris"
 else
         local server_is_up_var=down
 fi
