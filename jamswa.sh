@@ -71,16 +71,17 @@ fi
 
 if [ "$mc_was_running" == "no" ];then
 
-        echo "Server checks complete. $mc_server_name was not found to be running. Starting now...."
+        echo "Server checks complete." 
+		echo "$mc_server_name was not found to be running."
+		sleep .5
+		echo "Starting now...."
 
         screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
 
         ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' > $mcdir/mc.pid
 		
 else
-
 		echo "Minecraft is already running please check before trying again."
-		
 fi
 
 wait
