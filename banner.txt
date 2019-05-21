@@ -5,4 +5,4 @@ __________
  |______  /(____  /___|  /___|  /\___  >__|   
         \/      \/     \/     \/     \/       
 
-Generate your own at http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Banner or delete this .txt file.
+Generate your own at http://patorjk.com/software/taag/ or delete this .txt file.
