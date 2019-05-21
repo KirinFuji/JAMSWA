@@ -1,6 +1,6 @@
 #! /bin/sh
 # Coded by Kfuji
-#J.A.M.S.W.
+#J.A.M.S.W.A
 #Just Another Minecraft Server Wrapper Attempt
 
 #-----------------TIPS AND CHANGEABLE SETTINGS-----------------
