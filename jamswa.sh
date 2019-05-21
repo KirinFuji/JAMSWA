@@ -21,8 +21,15 @@ export mc_server_name="Minecraft 1.14.1 Server"
 #Or change the below variable to target a different file.
 export banner_file="banner.txt"
 
-#Other Files Used:
+#Other Misc Information:
 # /path/to/your/minecraft/banner.txt (Not Required)
+
+#You can change this var to change the text where you input to the server menu. 
+export PS3="Please use numbers to navigate:"
+
+#You can change this var to change the text when you fail to input correctly to the server menu.
+export failtext="You did not enter an available option number."
+
 #-----------------TIPS AND CHANGEABLE SETTINGS-----------------
 
 
@@ -115,6 +122,7 @@ fi
                 case $killmenu1 in
                      "Yes" ) kill "$pid_file" ; break;;
                      "No" ) break;;
+					 *) echo "$failtext" >&2
                 esac
             done
 		
@@ -135,6 +143,7 @@ fi
                 case $killmenu2 in
                      "Yes" ) kill "$pidis" ; break;;
                      "No" ) break;;
+					 *) echo "$failtext" >&2
                 esac
             done
 
@@ -154,6 +163,7 @@ find_mcproc_func
                                 case $reboot_menu_var in
                                         "Yes" ) start_minecraft_func && break;;
                                         "No" ) break;;
+										*) echo "$failtext" >&2
                                 esac
                         done
                 else
@@ -209,16 +219,7 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-export PS3="Please use numbers to navigate:"
-
-	if [ -f "$mcdir/$banner_file" ];then
-		echo ""
-		cat "$mcdir/$banner_file"
-		echo ""
-	fi
-
-	echo "Welcome to "$mc_server_name" Minecraft Server Menu."
-	
+showmenu=1
 main()
 {
 local COLUMNS=20
@@ -237,12 +238,21 @@ echo ""
 							reboot_minecraft_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
-					*) echo "You did not enter an available option number." >&2
+					*) echo "$failtext" >&2
 			esac
 	done	
 }
 
-showmenu=1
+
+if [ -f "$mcdir/$banner_file" ];then
+	echo ""
+	cat "$mcdir/$banner_file"
+	echo ""
+fi
+
+echo "Welcome to "$mc_server_name" Minecraft Server Menu."
+	
+
 while true;do
 if [ "$showmenu" == "0" ];then break ; fi	
 main
