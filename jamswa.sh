@@ -34,7 +34,6 @@ processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
 check_proc_success=$?
 pidis=$(echo "$processis" | awk '{print $2}')
 jaris=$(echo "processis" | grep -o "$mcdir/$mcjar")
-
 wait
 
 }
@@ -88,8 +87,12 @@ stop_minecraft_func()
 #Do a dip to get current status for vars
 find_mcproc_func
 
+if [[ ! "$mcdir/mc.pid" ]];then
 pid_file=$(cat $mcdir/mc.pid)
 pid_file_success=$?
+else
+pid_file_success="1"
+fi
 
 	if kill "$pid_file" ; then
 		echo "Process found, kill signal sent."
