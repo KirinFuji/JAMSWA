@@ -75,7 +75,7 @@ if [ "$mc_was_running" == "no" ];then
 
         screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
 
-        ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' &> $mcdir/mc.pid
+        ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' > $mcdir/mc.pid
 		
 else
 
@@ -98,14 +98,15 @@ else
 pid_file_success="1"
 fi
 
-	if kill "$pid_file" ; then
+	if kill "$pid_file"
+	then
 		echo "Process found, kill signal sent."
 		#TODO
 		#CODE ALTERNITAVE SERVER KILL SUCH AS SENDING A STRING TO MCCONSOLE BY SCREEN BUFFER WITH ENTER PRESS EMULATION
 		#TODO
 	else
 	
-	echo "Errors Detected. See above."
+		echo "Errors Detected. See above."
 		
 		if [ "$pid_file_success" == 0 ];then
 	
