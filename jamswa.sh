@@ -91,9 +91,8 @@ stop_minecraft_func()
 #Do a dip to get current status for vars
 find_mcproc_func
 
-if [[ ! "$mcdir/mc.pid" ]];then
+if [ -f "$mcdir/mc.pid" ];then
 pid_file=$(cat $mcdir/mc.pid)
-pid_file_success=$?
 else
 pid_file_success="1"
 fi
