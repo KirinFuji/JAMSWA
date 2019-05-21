@@ -76,10 +76,14 @@ if [ "$mc_was_running" == "no" ];then
         screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
 
         ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' &> $mcdir/mc.pid
+		
+else
+
+		echo "Minecraft is already running please check before trying again."
+		
 fi
 
 wait
-
 }
 
 stop_minecraft_func()
@@ -141,64 +145,53 @@ fi
 
 reboot_minecraft_func()
 {
-check_minecraft_func &> /dev/null
+find_mcproc_func
 
-        if [ "$server_is_up_var" = "down"]
+        if [ "$check_proc_success" != "0" ]
                 then
-
                         echo "Server is not running would you like to start it?"
-			local PS3="Please input numbers to navigate:"
                         select reboot_menu_var in "Yes" "No"
-                                do
+                        do
                                 case $reboot_menu_var in
-                                        "Yes" ) $mcdir/start_minecraft.sh && break;;
+                                        "Yes" ) start_minecraft_func && break;;
                                         "No" ) break;;
                                 esac
                         done
-
                 else
 
                 echo "Server is online. Starting reboot..."
-##############INSERT CODE TO START REBOOT HERE##############
-                check_minecraft_func
 
-                        while [ "server_is_up_var" = "up" ]
+                        while [ "check_proc_success" = "0" ]
                         do
-
-                                if [ "server_is_up_var" = "up" ]
+                                if [ "check_proc_success" = "0" ]
                                 then
                                         echo "Server is still shutting down waiting 5 seconds before checking again."
                                         sleep 5
-                                        check_minecraft_func
-
+                                        find_mcproc_func
                                 else
                                         break
                                 fi
                         done
 
                 echo "Server is offline starting now..."
-##############INSERT CODE TO START Server HERE##############
+				start_minecraft_func
         fi
 }
 
 check_minecraft_func()
 {
-local last_pid=$( ps ux | grep -i "$mcdir/$mcjar" | grep -v "grep" | awk '{print $2}')
-local is_server_up=$?
+find_mcproc_func
 
-if [ "$is_server_up" = 0 ]
-then
+if [ "$$check_proc_success" = 0 ];then
+
         local server_is_up_var=up
+		echo "$mc_server_name is running"	
+		echo "Its Process ID is: $last_pid"
 else
         local server_is_up_var=down
 fi
 
-echo "Server status is: $server_is_up_var"
-
-if [ "$server_is_up_var" = "up" ]
-then
-echo "Its Process ID is: $last_pid"
-fi
+echo "$mc_server_name is: $server_is_up_var"
 }
 
 attach_mc_screen_func()
