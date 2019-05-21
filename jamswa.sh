@@ -236,7 +236,7 @@ echo ""
 							reboot_minecraft_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
-					*) echo "Please use numbers to navigate." >&2
+					*) echo "You did not enter an available option number." >&2
 			esac
 	done	
 }
