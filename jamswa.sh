@@ -208,7 +208,7 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-local COLUMNS=20
+COLUMNS=20
 export PS3="Please use numbers to navigate:"
 
 	if [ -f "$mcdir/$banner_file" ]
@@ -225,7 +225,7 @@ select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Re
 do
         case $menu_var in
                  "Start Server")
-                        check_minecraft_func ; break;;
+                        start_minecraft_func ; break;;
                 "Stop Server")
                         stop_minecraft_func ; break;;
                 "View Server")
