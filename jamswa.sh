@@ -1,5 +1,7 @@
 #! /bin/sh
 # Coded by Kfuji
+#J.A.M.S.W.
+#Just Another Minecraft Server Wrapper Attempt
 
 #-----------------TIPS AND CHANGEABLE SETTINGS-----------------
 #YOU MUST CHANGE THIS VARIABLE TO BE YOUR MINECRAFT JAR FILE NAME
@@ -26,92 +28,112 @@ export banner_file="banner.txt"
 
 #-----------------FUNC-----------------
 
+find_mcproc_func()
+{
+processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
+check_proc_success=$?
+pidis=$(echo "$processis" | awk '{print $2}')
+jaris=$(echo "processis" | grep -o "$mcdir/$mcjar")
+
+wait
+
+}
+
 start_minecraft_func()
 {
 #Check to see if we are already running our screen session.
+
 screen -list | grep -i mc_screen_proc &> /dev/null
 is_screen_up=$?
 
-
 #If our screen session is not up then start it up.
-if [ "$is_screen_up" != 0 ];then
-screen -Sdm mc_screen_proc
-echo "Starting fresh screen session."
-else
-echo "Previous screen session found."
-fi
 
-#Check to see if minecraft is already running, if it is, stop script execution.
-jar_is=$(ps -aux | grep "$mcdir/$mcjar" | grep -v grep)
-jarfound=$?
+	if [ "$is_screen_up" != 0 ];then
+		screen -Sdm mc_screen_proc
+		echo "Starting fresh screen session."
+	else
+		echo "Previous screen session found."
+	fi
+	
+#Check to see if minecraft is already running, if it is, do not start another one.
 
-if [[ "$jarfound" != "0" && ! "$jar_is" ]]; then
-echo "Minecraft Is Down"
+find_mcproc_func
+
+if [[ "$check_proc_success" != "0" && ! "$jaris" ]];then
+echo "No Minecraft server found running."
 mc_was_running=no
 else
-pid_is=$( echo $jar_is | awk '{print $2}' )
-echo "jar found pid is $pid_is"
-echo "Minecraft Already Running"
+echo "Jar found pid is $pidis"
 mc_was_running=yes
-exit 1
 fi
 
 #Start Minecraft in our screen session.
 # "stuff" below is a screen command to 'buffer' our 'startmccmd' as a string, and then emulate pressing the enter key with "`echo -ne '\015'`"
 
-if [ "$mc_was_running" == "no" ]
-then
+if [ "$mc_was_running" == "no" ];then
 
-        echo "It appears to be safe to start the server. Starting now...."
+        echo "Server checks complete. $mc_server_name was not found to be running. Starting now...."
 
         screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
 
-        echo "Waiting 15 seconds"
-
-        sleep 15
-
-        echo "Checking for PID and writing to $mcdir/mc.pid"
-
         ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' &> $mcdir/mc.pid
-
-        echo "Outputting contents of $mcdir/mc.pid :"
-        echo
-        cat $mcdir/mc.pid
-
-        wait
-
 fi
+
+wait
+
 }
 
 stop_minecraft_func()
 {
-mcpid=$(cat $mcdir/mc.pid)
-if kill "$mcpid" ;then
-echo "Process found, sending kill signal..."
-else
-echo "Some error has occurred. See above. Last known PID was: $mcpid"
-echo "Checking running processes for $mcdir/$mcjar"
-processis=$(ps ux | grep -i "$mcdir/$mcjar" | grep -v "grep")
-processpidis=$( echo "$processis" | awk '{print $2}')
+#Do a dip to get current status for vars
+find_mcproc_func
 
-echo "$mcdir/mc.pid does not appear to have the process ID."
-			local PS3="Please input numbers to navigate:"
-			select reboot_menu_var in "Yes" "No"
-                                do
-                                case $reboot_menu_var in
-                                        "Yes" ) $mcdir/start_minecraft.sh && break;;
-                                        "No" ) break;;
-                                esac
-                        done
+pid_file=$(cat $mcdir/mc.pid)
+pid_file_success=$?
 
+	if kill "$pid_file" ; then
+		echo "Process found, kill signal sent."
+		#TODO
+		#CODE ALTERNITAVE SERVER KILL SUCH AS SENDING A STRING TO MCCONSOLE BY SCREEN BUFFER WITH ENTER PRESS EMULATION
+		#TODO
+	else
+	
+	echo "Errors Detected. See above."
+		
+		if [ "$pid_file_success" == 0 ];then
+	
+			echo "Last known PID was: $pid_file"
+			echo "Would you like to try again? kill PID?: $pid_file"
+			
+			select killmenu1 in "Yes" "No"
+            do
+                case $killmenu1 in
+                     "Yes" ) kill "$pid_file" ; break;;
+                     "No" ) break;;
+                esac
+            done
+		
+		else
 
+			echo "$mcdir/mc.pid does not appear to have the last process ID.\n"
+			echo "See below for current running server process if found."
+			
+			find_mcproc_func
+			
+			echo "$processis"
+			
+			echo "Would you like us to kill PID?: $pidis"
+			
+			select killmenu2 in "Yes" "No"
+            do
+                case $killmenu2 in
+                     "Yes" ) kill "$pidis" ; break;;
+                     "No" ) break;;
+                esac
+            done
 
-
-fi
-
-
-
-
+		fi
+	fi
 }
 
 reboot_minecraft_func()
@@ -186,40 +208,39 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-if [ -f "$mcdir/$banner_file" ]
-then
-echo ""
-cat $mcdir/$banner_file
-echo ""
-fi
+local COLUMNS=20
+export PS3="Please use numbers to navigate:"
+
+	if [ -f "$mcdir/$banner_file" ]
+	then
+		echo ""
+		cat "$mcdir/$banner_file"
+		echo ""
+	fi
 
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
-COLUMNS=20
-PS3="Please input numbers to navigate:"
+
 select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit"
+
 do
         case $menu_var in
                  "Start Server")
-                        check_minecraft_func ; break
-                        ;;
+                        check_minecraft_func ; break;;
                 "Stop Server")
-                        stop_minecraft_func ; break
-                        ;;
+                        stop_minecraft_func ; break;;
                 "View Server")
-                        attach_mc_screen_func ; break
-                        ;;
+                        attach_mc_screen_func ; break;;
                 "Check Server")
-                        check_minecraft_func ; break
-                        ;;
+                        check_minecraft_func ; break;;
                 "Reboot Server")
-                        reboot_minecraft_func ; break
-                        ;;
-                "Exit")
-                        break
-                        ;;
+                        reboot_minecraft_func ; break;;
+                "Exit") 
+						break;;
         esac
 done
 
+#DEBUG
+echo "Script Complete"
 exit 0
 
 
