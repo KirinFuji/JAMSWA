@@ -159,6 +159,10 @@ find_mcproc_func
 
                 echo "Server is online. Starting reboot..."
 
+				stop_minecraft_func
+				
+				sleep 5
+				
                         while true;
                         do
                                 if [ "$check_proc_success" = "0" ]
