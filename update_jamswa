@@ -1,0 +1,5 @@
+! /bin/sh
+git reset --hard
+git pull
+chmod +X jamswa.sh
+./jamswa.sh
