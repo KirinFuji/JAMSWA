@@ -226,20 +226,19 @@ echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";	do
 			case $menu_var in
 					"Start Server")
-							start_minecraft_func ;;
+							start_minecraft_func ; break ;;
 					"Stop Server")
-							stop_minecraft_func ;;
+							stop_minecraft_func ; break ;;
 					"View Server")
 							attach_mc_screen_func ; showmenu=0 ; break;;
 					"Check Server")
-							check_minecraft_func ;;
+							check_minecraft_func ; break ;;
 					"Reboot Server")
-							reboot_minecraft_func ;;
+							reboot_minecraft_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
 			esac
-	done
-	
+	done	
 }
 
 showmenu=1
