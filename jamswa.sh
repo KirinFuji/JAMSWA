@@ -100,12 +100,9 @@ fi
 	if kill "$pid_file"
 	then
 		echo "Process found, kill signal sent."
-		#TODO
-		#CODE ALTERNITAVE SERVER KILL SUCH AS SENDING A STRING TO MCCONSOLE BY SCREEN BUFFER WITH ENTER PRESS EMULATION
-		#TODO
 	else
 	
-		echo "Errors Detected. See above."
+		echo "Errors Detected."
 		
 		if [ "$pid_file_success" == 0 ];then
 	
@@ -122,7 +119,8 @@ fi
 		
 		else
 
-			echo "$mcdir/mc.pid does not appear to have the last process ID.\n"
+			echo "$mcdir/mc.pid does not appear to have the last process ID."
+			echo ""
 			echo "See below for current running server process if found."
 			
 			find_mcproc_func
@@ -216,29 +214,33 @@ export PS3="Please use numbers to navigate:"
 		echo ""
 	fi
 
+echo ""
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 
-select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit"
+showmenu=1
 
-do
-        case $menu_var in
-                 "Start Server")
-                        start_minecraft_func ;;
-                "Stop Server")
-                        stop_minecraft_func ;;
-                "View Server")
-                        attach_mc_screen_func ; break;;
-                "Check Server")
-                        check_minecraft_func ;;
-                "Reboot Server")
-                        reboot_minecraft_func ;;
-                "Exit") 
-						break;;
-        esac
+while true;do
+	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";	do
+			case $menu_var in
+					"Start Server")
+							start_minecraft_func ;;
+					"Stop Server")
+							stop_minecraft_func ;;
+					"View Server")
+							attach_mc_screen_func ; showmenu=0 ; break;;
+					"Check Server")
+							check_minecraft_func ;;
+					"Reboot Server")
+							reboot_minecraft_func ;;
+					"Exit") 
+							showmenu=0 ; break;;
+			esac
+	done
+	
+	if [ "$showmenu" == "0" ];then ; break ; fi	
+	
 done
 
-#DEBUG
-echo "Script Complete"
 exit 0
 
 
