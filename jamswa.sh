@@ -237,11 +237,10 @@ while true;do
 			esac
 	done
 	
-	if [ "$showmenu" == "0" ];then ; break ; fi	
+	if [ "$showmenu" == "0" ];then break ; fi	
 	
 done
 
 exit 0
-
 
 #-----------------MAIN-----------------
