@@ -208,7 +208,9 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-COLUMNS=20
+main()
+{
+local COLUMNS=20
 export PS3="Please use numbers to navigate:"
 
 	if [ -f "$mcdir/$banner_file" ]
@@ -221,9 +223,6 @@ export PS3="Please use numbers to navigate:"
 echo ""
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 
-showmenu=1
-
-while true;do
 	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";	do
 			case $menu_var in
 					"Start Server")
@@ -241,10 +240,15 @@ while true;do
 			esac
 	done
 	
-	if [ "$showmenu" == "0" ];then break ; fi	
-	
+}
+
+showmenu=1
+while true;do
+if [ "$showmenu" == "0" ];then break ; fi	
+main
 done
 
+wait
 exit 0
 
 #-----------------MAIN-----------------
