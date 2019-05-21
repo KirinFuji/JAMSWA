@@ -8,8 +8,6 @@ This is going to be very user friendly when complete. Users will not need to rea
 
 I plan on making a server install script that will do a secure server install with a service user.
 
-It primarily utilizes GNU Screen to keep the server backgrounded.
-
 As of: 5/20/19
 
 Currently I have a stable release version that does everything the menu says. 
