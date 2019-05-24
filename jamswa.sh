@@ -195,9 +195,9 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-./jamswa.settings
+script_root="$(dirname "$(readlink -f "$0")")"
 
-cat ./jamswa.settings
+source "$script_root"/jamswa.settings
 
 showmenu=1
 
