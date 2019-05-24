@@ -3,36 +3,6 @@
 #J.A.M.S.W.A
 #Just Another Minecraft Server Wrapper Attempt
 
-#-----------------TIPS AND CHANGEABLE SETTINGS-----------------
-#YOU MUST CHANGE THIS VARIABLE TO BE YOUR MINECRAFT JAR FILE NAME
-export mcjar="minecraft_server.1.14.1.jar"
-
-#YOU MUST CHANGE THIS VARIABLE TO BE YOUR MINECRAFT ROOT DIRECTORY! (No Slash at the end)
-export mcdir=/home/kfuji/Minecraft
-
-#You can change theese variable if you need to edit Minecraft RAM Ammounts:
-export mc_min_ram="-Xms2048M"
-export mc_max_ram="-Xmx4096M"
-
-#You will probablly want to brand your server, change the bellow to your server brand/name:
-export mc_server_name="Minecraft 1.14.1 Server"
-
-#You can put a banner file (ascii art, MOTD, etc) at /path/to/your/minecraft/banner.txt to be displayed when the menu is opened.
-#Or change the below variable to target a different file.
-export banner_file="banner.txt"
-
-#Other Misc Information:
-# /path/to/your/minecraft/banner.txt (Not Required)
-
-#You can change this var to change the text where you input to the server menu. 
-export PS3="Please use numbers to navigate:"
-
-#You can change this var to change the text when you fail to input correctly to the server menu.
-export failtext="You did not enter an available option number."
-
-#-----------------TIPS AND CHANGEABLE SETTINGS-----------------
-
-
 #-----------------FUNC-----------------
 
 find_mcproc_func()
@@ -41,7 +11,6 @@ processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
 check_proc_success=$?
 pidis=$(echo "$processis" | awk '{print $2}')
 wait
-
 }
 
 start_minecraft_func()
@@ -53,7 +22,8 @@ is_screen_up=$?
 
 #If our screen session is not up then start it up.
 
-	if [ "$is_screen_up" != 0 ];then
+	if [ "$is_screen_up" != 0 ]
+	then
 		screen -Sdm mc_screen_proc
 		echo "Starting fresh screen session."
 	else
@@ -65,41 +35,45 @@ is_screen_up=$?
 find_mcproc_func
 jaris=$(echo "$processis" | grep -o "$mcdir/$mcjar")
 
-if [[ "$check_proc_success" != "0" && ! "$jaris" ]];then
-echo "No Minecraft server found running."
-mc_was_running=no
-else
-echo "Jar found pid is $pidis"
-mc_was_running=yes
-fi
+	if [[ "$check_proc_success" != "0" && ! "$jaris" ]]
+	then
+		echo "No Minecraft server found running."
+		mc_was_running=no
+	else
+		echo "Jar found pid is $pidis"
+		mc_was_running=yes
+	fi
 
 #Start Minecraft in our screen session.
 # "stuff" below is a screen command to 'buffer' our 'startmccmd' as a string, and then emulate pressing the enter key with "`echo -ne '\015'`"
 
-if [ "$mc_was_running" == "no" ];then
-
-        echo "Server checks complete." 
-		echo "$mc_server_name was not found to be running."
-		sleep .5
-		echo "Starting now...."
-
-        screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
-
-        ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' > $mcdir/mc.pid
-		
-else
-		echo "Minecraft is already running please check before trying again."
-fi
-
+	if [ "$mc_was_running" == "no" ]
+	then
+			echo "Server checks complete." 
+			echo "$mc_server_name was not found to be running."
+			sleep .5
+			echo "Starting now...."
+	
+			screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
+	
+			ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' > $mcdir/mc.pid
+			
+	else
+			echo "Minecraft is already running please check before trying again."
+	fi
+	
 wait
+
 }
+
 
 stop_minecraft_func()
 {
 #Do a dip to get current status for vars
 find_mcproc_func
 
-if [ -f "$mcdir/mc.pid" ];then
+if [ -f "$mcdir/mc.pid" ]
+then
 pid_file=$(cat $mcdir/mc.pid)
 else
 pid_file_success="1"
@@ -112,7 +86,8 @@ fi
 	
 		echo "Errors Detected."
 		
-		if [ "$pid_file_success" == 0 ];then
+		if [ "$pid_file_success" == 0 ]
+		then
 	
 			echo "Last known PID was: $pid_file"
 			echo "Would you like to try again? kill PID?: $pid_file"
@@ -195,7 +170,8 @@ check_minecraft_func()
 {
 find_mcproc_func
 
-if [ "$check_proc_success" == 0 ];then
+if [ "$check_proc_success" == 0 ]
+then
 
         local server_is_up_var=up
 		echo "$mc_server_name is running"	
@@ -219,7 +195,12 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
+./jamswa.settings
+
+cat ./jamswa.settings
+
 showmenu=1
+
 main()
 {
 local COLUMNS=20
@@ -253,7 +234,8 @@ echo ""
 }
 
 
-if [ -f "$mcdir/$banner_file" ];then
+if [ -f "$mcdir/$banner_file" ]
+then
 	echo ""
 	cat "$mcdir/$banner_file"
 	echo ""
@@ -262,10 +244,14 @@ fi
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 	
 
-while true;do
-if [ "$showmenu" == "0" ];then break ; fi	
-main
-done
+	while true
+	do
+		if [ "$showmenu" == "0" ]
+		then
+			break
+		fi	
+		main
+	done
 
 wait
 exit 0
