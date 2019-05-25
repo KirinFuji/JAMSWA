@@ -1,15 +1,13 @@
 #The following MUST be edited to match your enviroment for this to work.
-export jamswadir="/home/kfuji/Minecraft/JAMSWA" #(No Slash at the end)
 export mcjar="minecraft_server.1.14.1.jar" 
 export mcdir="/home/kfuji/Minecraft" #(No Slash at the end)
 
 #The following can be edited to change various settings.
-
 #MC Server RAm
 export mc_min_ram="-Xms2048M"
 export mc_max_ram="-Xmx4096M"
 
-#Locatino of Banner file (text output menu branding)
+#Location of Banner file (text output menu branding)
 export banner_file="banner.txt"
 
 #Various text output that can be changed.
