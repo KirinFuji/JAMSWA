@@ -3,19 +3,20 @@
 #J.A.M.S.W.A
 #Just Another Minecraft Server Wrapper Attempt
 #Your file structure should look something like this:
-
-Minecraft/
-├── eula.txt
-├── JAMSWA
-│   ├── banner.txt
-│   ├── jamswa.settings
-│   ├── jamswa.sh
-│   ├── LICENSE
-│   └── README.md
-├── logs
-├── minecraft_server.1.14.1.jar
-├── server.properties
-└── world
+#
+# Minecraft/
+# ├── eula.txt
+# ├── JAMSWA
+# │   ├── banner.txt
+# │   ├── jamswa.settings
+# │   ├── jamswa.sh
+# │   ├── LICENSE
+# │   └── README.md
+# ├── logs
+# ├── minecraft_server.1.14.1.jar
+# ├── server.properties
+# └── world
+#
 
 #-----------------FUNC-----------------
 
