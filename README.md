@@ -16,10 +16,6 @@ You MUST set up your directory and .jar file in the jamswa.settings file.
 
 git clone https://github.com/KirinFuji/JAMSWA.git
 
--For the DEV version:
-
-git clone -b dev https://github.com/KirinFuji/JAMSWA.git
-
 -Then run the script.
 
 JAMSWA/jamswa.sh
