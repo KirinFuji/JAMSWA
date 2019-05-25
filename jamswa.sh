@@ -5,6 +5,7 @@
 
 #-----------------FUNC-----------------
 
+#The primary function that locates the server process and sets up the variables for the script.
 find_mcproc_func()
 {
 processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
@@ -13,6 +14,7 @@ pidis=$(echo "$processis" | awk '{print $2}')
 wait
 }
 
+#A small loop funciton to check the minecraft server, and if its still up, wait 5 seconds and check again, repeat until down.
 shuttingdown_check_loop()
 {
         while true;
@@ -82,7 +84,7 @@ wait
 
 }
 
-
+#Stop minecraft function, designed to figure out the system its on and find the process.
 stop_minecraft_func()
 {
 #Do a dip to get current status for vars
@@ -149,6 +151,7 @@ fi
 	fi
 }
 
+#Reboot cycle utility command. Checks server to ensure it wont launch two.
 reboot_minecraft_func()
 {
 find_mcproc_func
@@ -179,6 +182,7 @@ find_mcproc_func
         fi
 }
 
+#Basic server check function.
 check_minecraft_func()
 {
 find_mcproc_func
@@ -198,16 +202,18 @@ fi
 echo "$mc_server_name is: $server_is_up_var"
 }
 
+#Attach to screen session that we created for our MC server to live in.
 attach_mc_screen_func()
 {
 screen -r mc_screen_proc
 screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to detach press CTRL+A then let go and tap D"'$(echo -ne '\015')
 }
 
+#Install Menu Function, shows the install menu.
 install_menu_func()
 {
 echo ""
-	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Exit";do
+	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Edit $script_root/jamswa.settings" "Exit";do
 			case $install_menu_var in
 					"Install symlink to $HOME/bin")							
 							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
@@ -219,6 +225,10 @@ echo ""
 							sudo ln -s $script_file /usr/bin/$users_choice
 							echo "Symlink created in /usr/bin. You may now type "$users_choice" to run YAMSWA"
 							break ;;
+					"Edit $script_root/jamswa.settings")
+							nano "$script_root/jamswa.settings"					
+							wait
+							break;;
 					"Exit") 
 							break;;
 					*) echo "$failtext" >&2
@@ -226,6 +236,7 @@ echo ""
 	done
 }
 
+#Main Menu Function, shows the main menu.
 main_menu()
 {
 local COLUMNS=20
@@ -264,29 +275,29 @@ echo ""
 
 #-----------------MAIN-----------------
 
+#Ensures user has correct requirements or else exit.
+screen -v | grep -i screen &> /dev/null
+has_screen1=$?
+if [ -f /usr/bin/screen ]; then has_screen2=0 ;else has_screen2=1 ;fi
+if [ "$has_screen1" != "0" && "$has_screen1" != "0" ];then echo "You do not have Screen installed. This is required."; exit 1 ; fi
+
+#Script learns its own location and sets variables accordingly.
 script_file=$(readlink -f "$0")
 script_file_success=$?
-
 script_root=$(dirname $script_file)
 script_root_success=$?
-
 if [ "script_root_success" != "0" && "$script_file_success" != "0" ];then echo "Something very bad has happened. Exiting"; exit 1 ; fi
 
-if [ -f "$script_root/jamswa.settings" ];then echo "yamswa.settings is missing. This is required."; exit 1 ; fi
-
+#jamswa.settings file structure check
+if [ -f "$script_root/jamswa.settings" ];then echo "jamswa.settings is missing. This is required."; exit 1 ; fi
 source "$script_root"/jamswa.settings
 
-showmenu=1
-
-if [ -f "$mcdir/$banner_file" ]
-then
-	echo ""
-	cat "$mcdir/$banner_file"
-	echo ""
-fi
-
+#Server Branding
+if [ -f "$mcdir/$banner_file" ];then echo "" ; cat "$mcdir/$banner_file" ; echo "" ; fi
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 
+#Main Menu loop
+showmenu=1
 	while true
 	do
 		if [ "$showmenu" == "0" ]
@@ -296,8 +307,8 @@ echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 		main_menu
 	done
 
+#Wait and Exit
 wait
-
 exit 0
 
 #-----------------MAIN-----------------
