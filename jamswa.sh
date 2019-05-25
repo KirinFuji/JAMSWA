@@ -5,12 +5,29 @@
 
 #-----------------FUNC-----------------
 
+
+
 find_mcproc_func()
 {
 processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
 check_proc_success=$?
 pidis=$(echo "$processis" | awk '{print $2}')
 wait
+}
+
+shuttingdown_check_loop()
+{
+        while true;
+        do
+            if [ "$check_proc_success" = "0" ]
+            then
+                 echo "Server is still shutting down waiting 5 seconds before checking again."
+                                        sleep 5
+                                        find_mcproc_func
+                                else
+                                        break
+                                fi
+        done
 }
 
 start_minecraft_func()
@@ -52,12 +69,13 @@ jaris=$(echo "$processis" | grep -o "$mcdir/$mcjar")
 			echo "Server checks complete." 
 			echo "$mc_server_name was not found to be running."
 			sleep .5
-			echo "Starting now...."
-	
+			echo "Starting $mcdir/$mcjar now..."			
+
+			screen -S mc_screen_proc -X stuff "cd $mcdir"`echo -ne '\015'` #Ran into a bug caused by someone changing the working directory of our screeen session this ensures its always correct.
 			screen -S mc_screen_proc -X stuff "java $mc_min_ram $mc_max_ram -jar $mcdir/$mcjar nogui"`echo -ne '\015'`
 	
 			ps -aux | grep "$mcdir/$mcjar" | grep -v grep | awk '{print $2}' > $mcdir/mc.pid
-			
+						
 	else
 			echo "Minecraft is already running please check before trying again."
 	fi
@@ -82,6 +100,13 @@ fi
 	if kill "$pid_file"
 	then
 		echo "Process found, kill signal sent."
+
+		sleep 5
+		
+		shuttingdown_check_loop
+
+        echo "Server has finished shutting down."		
+		
 	else
 	
 		echo "Errors Detected."
@@ -149,17 +174,7 @@ find_mcproc_func
 				
 				sleep 5
 				
-                        while true;
-                        do
-                                if [ "$check_proc_success" = "0" ]
-                                then
-                                        echo "Server is still shutting down waiting 5 seconds before checking again."
-                                        sleep 5
-                                        find_mcproc_func
-                                else
-                                        break
-                                fi
-                        done
+				shuttingdown_check_loop
 
                 echo "Server is offline starting now..."
 				start_minecraft_func
@@ -195,7 +210,11 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 
 #-----------------MAIN-----------------
 
-script_root="$(dirname "$(readlink -f "$0")")"
+script_file=$(readlink -f "$0")
+script_file_success=$?
+
+script_root=$(dirname $script_file)
+script_root_success=$?
 
 source "$script_root"/jamswa.settings
 
@@ -242,7 +261,6 @@ then
 fi
 
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
-	
 
 	while true
 	do
@@ -254,6 +272,7 @@ echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 	done
 
 wait
+
 exit 0
 
 #-----------------MAIN-----------------
