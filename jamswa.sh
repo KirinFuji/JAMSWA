@@ -5,29 +5,6 @@
 
 #-----------------FUNC-----------------
 
-install_menu_func()
-{
-echo ""
-	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Exit";do
-			case $install_menu_var in
-					"Install symlink to $HOME/bin")							
-							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
-							mkdir -p $HOME/bin && ln -s $script_file $HOME/bin/$users_choice
-							if [ $? == 0 ] ;then echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"; else echo "Something went wrong." ;fi
-							break ;;
-					"Install symlink to /usr/bin [Will prompt for admin]")
-							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i yamswa -e users_choice
-							sudo ln -s $script_file /usr/bin/$users_choice
-							if [ $? == 0 ] ;then echo "Symlink created in /usr/bin. You may now type "$users_choice" to run YAMSWA"; else echo "Something went wrong." ;fi
-						
-							break ;;
-					"Exit") 
-							break;;
-					*) echo "$failtext" >&2
-			esac
-	done
-}
-
 find_mcproc_func()
 {
 processis=$(ps aux | grep -i "$mcdir/$mcjar" | grep -v "grep")
@@ -227,21 +204,29 @@ screen -r mc_screen_proc
 screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to detach press CTRL+A then let go and tap D"'$(echo -ne '\015')
 }
 
-#-----------------FUNC-----------------
+install_menu_func()
+{
+echo ""
+	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Exit";do
+			case $install_menu_var in
+					"Install symlink to $HOME/bin")							
+							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
+							mkdir -p $HOME/bin && ln -s $script_file $HOME/bin/$users_choice
+							echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"
+							break ;;
+					"Install symlink to /usr/bin [Will prompt for admin]")
+							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
+							sudo ln -s $script_file /usr/bin/$users_choice
+							echo "Symlink created in /usr/bin. You may now type "$users_choice" to run YAMSWA"
+							break ;;
+					"Exit") 
+							break;;
+					*) echo "$failtext" >&2
+			esac
+	done
+}
 
-#-----------------MAIN-----------------
-
-script_file=$(readlink -f "$0")
-script_file_success=$?
-
-script_root=$(dirname $script_file)
-script_root_success=$?
-
-source "$script_root"/jamswa.settings
-
-showmenu=1
-
-main()
+main_menu()
 {
 local COLUMNS=20
 echo ""
@@ -275,6 +260,23 @@ echo ""
 	done
 }
 
+#-----------------FUNC-----------------
+
+#-----------------MAIN-----------------
+
+script_file=$(readlink -f "$0")
+script_file_success=$?
+
+script_root=$(dirname $script_file)
+script_root_success=$?
+
+if [ "script_root_success" != "0" && "$script_file_success" != "0" ];then echo "Something very bad has happened. Exiting"; exit 1 ; fi
+
+if [ -f "$script_root/jamswa.settings" ];then echo "yamswa.settings is missing. This is required."; exit 1 ; fi
+
+source "$script_root"/jamswa.settings
+
+showmenu=1
 
 if [ -f "$mcdir/$banner_file" ]
 then
@@ -291,7 +293,7 @@ echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 		then
 			break
 		fi	
-		main
+		main_menu
 	done
 
 wait
