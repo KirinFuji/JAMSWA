@@ -7,7 +7,7 @@ export mcdir="Change/Me/To/Your/Directory" #(No Slash at the end)
 export mc_min_ram="-Xms2048M"
 export mc_max_ram="-Xmx4096M"
 
-#Location of Banner file (text output menu branding)
+#Banner file (text output menu branding)
 export banner_file="banner.txt"
 
 #Various text output that can be changed.

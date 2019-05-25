@@ -311,7 +311,7 @@ if [ "$mcjar" == "NameMeYourMCDotJarFile.jar" ] ;then echo "You did not edit jam
 if [ "$mcdir" == "Change/Me/To/Your/Directory" ];then echo "You did not edit jamswa.settings You need to set the directory/path for your minecraft/ folder."; exit 1 ;fi
 
 #Server Branding
-if [ -f "$script_root/$banner_file" ];then echo "" ; cat "$mcdir/$banner_file" ; echo "" ; fi
+if [ -f "$script_root/$banner_file" ];then echo "" ; cat "$script_root/$banner_file" ; echo "" ; fi
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
 
 #Main Menu loop
