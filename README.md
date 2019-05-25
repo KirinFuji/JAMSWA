@@ -2,16 +2,32 @@
 
 Hello and welcome to JAMSWA!
 
-This is a Shell Wrapper Menu for managing a minecraft server on unix.
+This is a Shell Wrapper Utility Menu for managing a minecraft server on unix.
 
-This is going to be very user friendly when complete. Users will not need to read the code at all and simply add their variables to a .settings file.
 
-I plan on making a server install script that will do a secure server install with a service user.
+#Most Important detail:
 
-As of: 5/20/19
+You MUST set up your directory and .jar file in the jamswa.settings file.
 
-Currently I have a stable release version that does everything the menu says. 
 
-I have tested it thoroughly and I am not seeing any more bugs.
+#To Install:
 
-Readme and documentatino will come soon.
+I recommend navigating your working directory to your minecraft folder, and then run the following:
+
+1.a git clone https://github.com/KirinFuji/JAMSWA.git
+
+For the DEV version:
+
+1.b git clone -b dev https://github.com/KirinFuji/JAMSWA.git
+
+Then run the script.
+
+2. JAMSWA/jamswa.sh
+
+Then if desired, use the installer feature to make a symlink:
+
+opt 6, then opt 1 or 2.
+
+Then run it from anywhere:
+
+jamswa
