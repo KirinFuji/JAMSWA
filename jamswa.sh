@@ -10,9 +10,10 @@ install_menu_func()
 echo ""
 	select install_menu_var in "Install symlink to ~/bin" "Install symlink to /usr/bin" "Exit";do
 			case $install_menu_var in
-					"Install symlink to ~bin")							
+					"Install symlink to $HOME/bin")							
 							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i yamswa -e users_choice
-							ln -s $script_file $users_choice && mkdir -p ~/bin && mv $users_chocie ~/bin/
+							ln -s $script_file $users_choice && mkdir -p ~/bin && mv $users_chocie $HOME/bin/
+							if $? ;then echo "Something went wrong"; fi
 							echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"
 							break ;;
 					"Install symlink to /usr/bin")
