@@ -5,7 +5,27 @@
 
 #-----------------FUNC-----------------
 
-
+install_menu_func()
+{
+echo ""
+	select install_menu_var in "Install symlink to ~/bin" "Install symlink to /usr/bin" "Exit";do
+			case $install_menu_var in
+					"Install symlink to ~bin")							
+							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i yamswa -e users_choice
+							ln -s $script_file $users_choice && mkdir -p ~/bin && mv $users_chocie ~/bin/
+							echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"
+							break ;;
+					"Install symlink to /usr/bin")
+							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i yamswa -e users_choice
+							ln -s $script_file $users_choice && mv $users_chocie /usr/bin/
+							echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"
+							break ;;
+					"Exit") 
+							break;;
+					*) echo "$failtext" >&2
+			esac
+	done
+}
 
 find_mcproc_func()
 {
@@ -224,7 +244,7 @@ main()
 {
 local COLUMNS=20
 echo ""
-	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Exit";do
+	select menu_var in "Start Server" "Stop Server" "View Server" "Check Server" "Reboot Server" "Install Menu" "Exit";do
 			case $menu_var in
 					"Start Server")
 							start_minecraft_func ; break ;;
@@ -238,6 +258,8 @@ echo ""
 							#								# Addition Group #1
 					"Reboot Server")
 							reboot_minecraft_func ; break ;;
+					"Install Menu")
+							install_menu_func ; break ;;
 					"Exit") 
 							showmenu=0 ; break;;
 					*) echo "$failtext" >&2
