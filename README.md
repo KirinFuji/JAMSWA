@@ -12,19 +12,19 @@ You MUST set up your directory and .jar file in the jamswa.settings file.
 
 # To Install:
 
-I recommend navigating your working directory to your minecraft folder, and then run the following:
+-I recommend navigating your working directory to your minecraft folder, and then run the following:
 
-1.a git clone https://github.com/KirinFuji/JAMSWA.git
+git clone https://github.com/KirinFuji/JAMSWA.git
 
-For the DEV version:
+-For the DEV version:
 
-1.b git clone -b dev https://github.com/KirinFuji/JAMSWA.git
+git clone -b dev https://github.com/KirinFuji/JAMSWA.git
 
-Then run the script.
+-Then run the script.
 
-2. JAMSWA/jamswa.sh
+JAMSWA/jamswa.sh
 
-Then if desired, use the installer feature to make a symlink:
+-Then if desired, use the installer feature to make a symlink:
 
 opt 6, then opt 1 or 2.
 
