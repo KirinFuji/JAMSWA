@@ -307,6 +307,9 @@ if [ "script_root_success" != "0" && "$script_file_success" != "0" ];then echo "
 if [ -f "$script_root/jamswa.settings" ];then echo "jamswa.settings is missing. This is required."; exit 1 ; fi
 source "$script_root"/jamswa.settings
 
+if [ "$mcjar" == "NameMeYourMCDotJarFile.jar" ] ;then echo "You did not edit jamswa.settings You need to set a JAR file for mcjar"; exit 1 ;fi
+if [ "$mcdir" == "Change/Me/To/Your/Directory" ];then echo "You did not edit jamswa.settings You need to set the directory/path for your minecraft/ folder."; exit 1 ;fi
+
 #Server Branding
 if [ -f "$mcdir/$banner_file" ];then echo "" ; cat "$mcdir/$banner_file" ; echo "" ; fi
 echo "Welcome to "$mc_server_name" Minecraft Server Menu."
