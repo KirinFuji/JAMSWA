@@ -294,7 +294,7 @@ echo ""
 screen -v | grep -i screen &> /dev/null
 has_screen1=$?
 if [ -f /usr/bin/screen ]; then has_screen2=0 ;else has_screen2=1 ;fi
-if [ "$has_screen1" != "0" && "$has_screen1" != "0" ];then echo "You do not have Screen installed. This is required."; exit 1 ; fi
+if [[ "$has_screen1" != "0" && "$has_screen1" != "0" ]];then echo "You do not have Screen installed. This is required."; exit 1 ; fi
 
 #Script learns its own location and sets variables accordingly.
 script_file=$(readlink -f "$0")
