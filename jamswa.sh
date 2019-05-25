@@ -304,7 +304,7 @@ script_root_success=$?
 if [[ "script_root_success" != "0" && "$script_file_success" != "0" ]];then echo "Something very bad has happened. Exiting"; exit 1 ; fi
 
 #jamswa.settings file structure check
-if [ -f "$script_root/jamswa.settings" ];then echo "jamswa.settings is missing. This is required."; exit 1 ; fi
+if [ ! -f "$script_root/jamswa.settings" ];then echo "jamswa.settings is missing. This is required."; exit 1 ; fi
 source "$script_root"/jamswa.settings
 
 if [ "$mcjar" == "NameMeYourMCDotJarFile.jar" ] ;then echo "You did not edit jamswa.settings You need to set a JAR file for mcjar"; exit 1 ;fi
