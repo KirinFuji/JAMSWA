@@ -228,7 +228,7 @@ screen -S mc_screen_proc -X stuff 'echo "You have Attached to the server, to det
 install_menu_func()
 {
 echo ""
-	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Edit $script_root/jamswa.settings" "Exit";do
+	select install_menu_var in "Install symlink to $HOME/bin" "Install symlink to /usr/bin [Will prompt for admin]" "Edit $script_root/jamswa.settings" "Update JAMSWA" "Exit";do
 			case $install_menu_var in
 					"Install symlink to $HOME/bin")							
 							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
