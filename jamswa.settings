@@ -14,3 +14,19 @@ export banner_file="banner.txt"
 export mc_server_name="Minecraft 1.14.1 Server"
 export PS3="Please use numbers to navigate:"
 export failtext="You did not enter an available option number."
+
+#Your file structure should look something like this:
+#
+# Minecraft/
+# ├── eula.txt
+# ├── JAMSWA
+# │   ├── banner.txt
+# │   ├── jamswa.settings
+# │   ├── jamswa.sh
+# │   ├── LICENSE
+# │   └── README.md
+# ├── logs
+# ├── minecraft_server.1.14.1.jar
+# ├── server.properties
+# └── world
+#
