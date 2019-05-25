@@ -13,13 +13,13 @@ echo ""
 					"Install symlink to $HOME/bin")							
 							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i jamswa -e users_choice
 							mkdir -p $HOME/bin && ln -s $script_file $HOME/bin/$users_choice
-							if [ $? != 0 ] ;then echo "Something went wrong"; fi
-							if [ $? != 0 ] ;then echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA";fi
+							if [ $? == 0 ] ;then echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA"; else echo "Something went wrong." ;fi
 							break ;;
 					"Install symlink to /usr/bin [Will prompt for admin]")
 							read -p "Enter the name of the 'cmd' you want to type to bring up YAMSWA: " -i yamswa -e users_choice
 							sudo ln -s $script_file /usr/bin/$users_choice
-							if [ $? != 0 ] ;then echo "Symlink created in $HOME/bin. You may now type "$users_choice" to run YAMSWA";fi
+							if [ $? == 0 ] ;then echo "Symlink created in /usr/bin. You may now type "$users_choice" to run YAMSWA"; else echo "Something went wrong." ;fi
+						
 							break ;;
 					"Exit") 
 							break;;
