@@ -244,6 +244,12 @@ echo ""
 							nano "$script_root/jamswa.settings"					
 							wait
 							break;;
+					"Update JAMSWA")
+							pushd $script_root
+							git stash; git pull; git stash pop
+							popd
+							wait
+							break;;
 					"Exit") 
 							break;;
 					*) echo "$failtext" >&2
