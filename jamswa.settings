@@ -1,6 +1,6 @@
 #The following MUST be edited to match your enviroment for this to work.
-export mcjar="minecraft_server.1.14.1.jar" 
-export mcdir="/home/kfuji/Minecraft" #(No Slash at the end)
+export mcjar="NameMeYourMCDotJarFile.jar" 
+export mcdir="Change/Me/To/Your/Directory" #(No Slash at the end)
 
 #The following can be edited to change various settings.
 #MC Server RAm
@@ -11,7 +11,7 @@ export mc_max_ram="-Xmx4096M"
 export banner_file="banner.txt"
 
 #Various text output that can be changed.
-export mc_server_name="Minecraft 1.14.1 Server"
+export mc_server_name="Change Me"
 export PS3="Please use numbers to navigate:"
 export failtext="You did not enter an available option number."
 
