@@ -301,7 +301,7 @@ script_file=$(readlink -f "$0")
 script_file_success=$?
 script_root=$(dirname $script_file)
 script_root_success=$?
-if [ "script_root_success" != "0" && "$script_file_success" != "0" ];then echo "Something very bad has happened. Exiting"; exit 1 ; fi
+if [[ "script_root_success" != "0" && "$script_file_success" != "0" ]];then echo "Something very bad has happened. Exiting"; exit 1 ; fi
 
 #jamswa.settings file structure check
 if [ -f "$script_root/jamswa.settings" ];then echo "jamswa.settings is missing. This is required."; exit 1 ; fi
