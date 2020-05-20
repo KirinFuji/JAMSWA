@@ -1,3 +1,7 @@
+# Update:
+
+Making Public again have fun if you want to use it it very likely still works and makes managning minecraft server a little easier
+
 # JAMSWA
 
 Hello and welcome to JAMSWA!
